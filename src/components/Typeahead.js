@@ -11,7 +11,12 @@ const Buttonstyled = styled.button`
 `;
 const Typeahead = ({ suggestions, handleSelect }) => {
   const [value, setValue] = React.useState("");
-
+  const matchingSuggestions = suggestions.filter((book) => {
+    if (value.length > 2) {
+      return book.title.toLowerCase().includes(value);
+    }
+  });
+  console.log(matchingSuggestions);
   return (
     <>
       <input
@@ -24,7 +29,18 @@ const Typeahead = ({ suggestions, handleSelect }) => {
           }
         }}
       />
-
+      <ul>
+        {matchingSuggestions.map((suggestion) => {
+          return (
+            <li
+              key={suggestion.id}
+              onClick={() => handleSelect(suggestion.title)}
+            >
+              {suggestion.title}
+            </li>
+          );
+        })}
+      </ul>
       <Buttonstyled onClick={() => setValue("")}>Clear</Buttonstyled>
     </>
   );
