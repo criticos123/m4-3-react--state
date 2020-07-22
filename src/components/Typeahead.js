@@ -9,6 +9,19 @@ const Buttonstyled = styled.button`
   border: none;
   padding: 8px;
 `;
+const Books = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 325px;
+  box-shadow: 2px 2px 3px 3px whitesmoke;
+`;
+const Searching = styled.li`
+  width: 300px;
+  padding: 6px;
+  &:hover {
+    background-color: #fafad2;
+  }
+`;
 const Typeahead = ({ suggestions, handleSelect }) => {
   const [value, setValue] = React.useState("");
   const matchingSuggestions = suggestions.filter((book) => {
@@ -23,25 +36,20 @@ const Typeahead = ({ suggestions, handleSelect }) => {
         type="text"
         value={value}
         onChange={(ev) => setValue(ev.target.value)}
-        onKeyDown={(ev) => {
-          if (ev.key === "Enter") {
-            handleSelect(ev.target.value);
-          }
-        }}
       />
-      <ul>
+      <Buttonstyled onClick={() => setValue("")}>Clear</Buttonstyled>
+      <Books>
         {matchingSuggestions.map((suggestion) => {
           return (
-            <li
+            <Searching
               key={suggestion.id}
-              onClick={() => handleSelect(suggestion.title)}
+              //   onClick={() => handleSelect(suggestion.title)} took it out so i dont get localhost everytime i click
             >
               {suggestion.title}
-            </li>
+            </Searching>
           );
         })}
-      </ul>
-      <Buttonstyled onClick={() => setValue("")}>Clear</Buttonstyled>
+      </Books>
     </>
   );
 };
