@@ -16,7 +16,7 @@ const Typeahead = ({ suggestions, handleSelect }) => {
       return book.title.toLowerCase().includes(value);
     }
   });
-  console.log(matchingSuggestions);
+
   return (
     <>
       <input
