@@ -22,7 +22,14 @@ const Searching = styled.li`
     background-color: #fafad2;
   }
 `;
-const Typeahead = ({ suggestions, handleSelect }) => {
+const Bolding = styled.span`
+  font-weight: bold;
+`;
+const Category = styled.span`
+  font-style: italic;
+  color: purple;
+`;
+const Typeahead = ({ suggestions, handleSelect, categories }) => {
   const [value, setValue] = React.useState("");
   const matchingSuggestions = suggestions.filter((book) => {
     if (value.length > 2) {
@@ -38,18 +45,30 @@ const Typeahead = ({ suggestions, handleSelect }) => {
         onChange={(ev) => setValue(ev.target.value)}
       />
       <Buttonstyled onClick={() => setValue("")}>Clear</Buttonstyled>
-      <Books>
-        {matchingSuggestions.map((suggestion) => {
-          return (
-            <Searching
-              key={suggestion.id}
-              //   onClick={() => handleSelect(suggestion.title)} took it out so i dont get localhost everytime i click
-            >
-              {suggestion.title}
-            </Searching>
-          );
-        })}
-      </Books>
+      {matchingSuggestions.length > 0 && (
+        <Books>
+          {matchingSuggestions.map((suggestion) => {
+            const index = suggestion.title.search(value);
+            let firsthalf = suggestion.title.slice(0, index + 1 + value.length);
+            let secondhalf = suggestion.title.slice(index + 1 + value.length);
+            return (
+              <Searching
+                key={suggestion.id}
+                //   onClick={() => handleSelect(suggestion.title)} took it out so i dont get localhost everytime i click
+              >
+                <span>
+                  {firsthalf}
+                  <Bolding> {secondhalf} </Bolding>
+                </span>
+                <span>
+                  in
+                  <Category>{categories[suggestion.categoryId].name}</Category>
+                </span>
+              </Searching>
+            );
+          })}
+        </Books>
+      )}
     </>
   );
 };
